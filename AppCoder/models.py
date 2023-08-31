@@ -27,7 +27,7 @@ class Entregable(models.Model):
 # C:\Users\javie\AppData\Local\Programs\Python\Python311\python.exe .\manage.py showmigrations
 
 # para crear el archivo de migraciones de la base de datos
-# C:\Users\javie\AppData\Local\Programs\Python\Python311\python.exe .\manage.py makemigrations
+# C:\Users\javie\AppData\Local\Programs\Python\Python311\python.exe .\manage.py makemigrations 
 
 
 
@@ -41,3 +41,13 @@ class Entregable(models.Model):
 # from AppCoder.models import Curso
 # nuevo_curso = Curso(nombre="Pythom Basico", camada=12312)
 # nuevo_curso.save()
+
+# git init
+# git status
+# git branch -M main
+# git remote add origin https://github.com/jguerra1975/ProyectoCoder.git
+# git add .
+# git commit -m "first commit"
+# git push origin main
+
+
