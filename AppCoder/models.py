@@ -42,12 +42,12 @@ class Entregable(models.Model):
 # nuevo_curso = Curso(nombre="Pythom Basico", camada=12312)
 # nuevo_curso.save()
 
-# git init
-# git status
-# git branch -M main
-# git remote add origin https://github.com/jguerra1975/ProyectoCoder.git
-# git add .
-# git commit -m "first commit"
-# git push origin main
+# git init para iniciar el git
+# git status 
+# git branch -M main  para cambiar el nombre del master
+# git remote add origin https://github.com/jguerra1975/ProyectoCoder.git para llevar el proyecto a gitbub
+# git add . para agregar los cambio
+# git commit -m "first commit"  para comitiar los cambios
+# git push origin main   para subir los cambios
 
 
