@@ -5,23 +5,37 @@ from django.db import models
 class Curso(models.Model):
     nombre = models.CharField(max_length=40)
     camada = models.IntegerField()
+    
+
+    def __str__(self) -> str:
+        return f'{self.nombre} - {self.camada}'
+
+    class Meta():
+        ordering = ('nombre', 'camada')
+        unique_together = ('nombre', 'camada')    
+    
 
 class Estudiante(models.Model):
     nombre = models.CharField(max_length=40)
     apellido = models.CharField(max_length=40)
     email = models.EmailField()
 
+    def __str__(self) -> str:
+        return f'{self.nombre} | {self.apellido} | {self.email}'
+
 class Profesor(models.Model):
     nombre = models.CharField(max_length=40)
     apellido = models.CharField(max_length=40)
     email = models.EmailField()
     profesion = models.CharField(max_length=50)
+    cursos = models.ManyToManyField(Curso)
 
 class Entregable(models.Model):
     nombre = models.CharField(max_length=40)
     fechaDeEntrega = models.DateField()
     entregado = models.BooleanField()
     link = models.CharField(max_length=256, null=True)
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, null=True)
 
 # para ver cuales son las modificaciones a la base de datos pendientes
 # C:\Users\javie\AppData\Local\Programs\Python\Python311\python.exe .\manage.py showmigrations
@@ -50,4 +64,5 @@ class Entregable(models.Model):
 # git commit -m "first commit"  para comitiar los cambios
 # git push origin main   para subir los cambios
 
+# python .\manage.py createsuperuser  para crear el super usuario de la consola de Django
 
