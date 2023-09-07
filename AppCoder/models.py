@@ -63,6 +63,7 @@ class Entregable(models.Model):
 # git add . para agregar los cambio
 # git commit -m "first commit"  para comitiar los cambios
 # git push origin main   para subir los cambios
+# git remote get-url origin para ver la url del github
 
 # python .\manage.py createsuperuser  para crear el super usuario de la consola de Django
 

@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from .models import Curso
+from .forms import CursoFormulario
 # Create your views here.
 
 def curso(req, nombre, camada):
@@ -12,7 +13,10 @@ def curso(req, nombre, camada):
     """)
 
 def listar_cursos(req):
+
     lista = Curso.objects.all()
+    print('method', req.method)
+    print('GET', req.GET)
     return render(req, "lista_cursos.html", {"lista_cursos": lista})
 
 def inicio(req):
@@ -39,3 +43,36 @@ def entregables(req):
 
     #return HttpResponse("Vista de entregables")
     return render(req, "entregables.html")
+
+def cursoFormulario(req):
+
+    print('method', req.method)
+    print('POST', req.POST)
+    if req.method == 'POST':
+        miFormulario = CursoFormulario(req.POST)
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            curso = Curso(nombre=data["curso"], camada=data["camada"])
+            curso.save()
+        return render(req, "inicio.html")
+    else:
+        miFormulario = CursoFormulario()
+        return render(req, "cursoFormulario.html", {"miFormulario": miFormulario})
+    
+def busquedaCamada(req):
+    print('method', req.method)
+    print('GET', req.GET)
+    return render(req, "busquedaCamada.html")
+
+def buscar(req: HttpRequest):
+    print('method', req.method)
+    print('GET', req.GET)
+    if req.GET["camada"]:
+        camada = req.GET["camada"]
+        #cursos = Curso.objects.get(camada=camada)
+        #cursos = Curso.objects.filter(camada=camada)
+        cursos = Curso.objects.filter(camada__icontains=camada)
+        print (f'{cursos}')
+        return render(req, "resultadoBusqueda.html", {"cursos": cursos})
+    else:
+        return HttpResponse(f'no hay resultados en la busqueda {req.GET["camada"]}')

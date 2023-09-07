@@ -1,0 +1,15 @@
+{% extends 'padre.html' %}
+
+
+{% block contenidoQuecambia %}
+    <form action="{% url 'Buscar' %}" method="get">
+        <!--
+        <p>Curso: <input type="text" name="curso"></p>
+        <p>Canada: <input type="number" name="camada"></p>
+        -->
+        <p>Canada: <input type="number" name="camada"></p>
+        <!--{{miFormulario.as_p}}-->
+        <button type="submit"> Enviar </button>
+    </form>
+  
+{% endblock contenidoQuecambia %}

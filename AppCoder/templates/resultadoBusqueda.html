@@ -1,0 +1,20 @@
+{% extends 'padre.html' %}
+
+
+{% block contenidoQuecambia %}
+   
+    <p>Resultados de la busqueda del curso</p>
+    
+    {% if cursos %}    
+        <ul>
+            {% for curso in cursos %}
+            <li>{{curso}}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <p> No hay Resultados en la busqueda</p>
+    {% endif %}
+    <!--{{curso}}-->
+
+{% endblock contenidoQuecambia %}
+
