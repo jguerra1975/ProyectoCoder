@@ -28,7 +28,10 @@ class Profesor(models.Model):
     apellido = models.CharField(max_length=40)
     email = models.EmailField()
     profesion = models.CharField(max_length=50)
-    cursos = models.ManyToManyField(Curso)
+    cursos = models.ManyToManyField(Curso, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.nombre} | {self.apellido} | {self.profesion}'
 
 class Entregable(models.Model):
     nombre = models.CharField(max_length=40)
