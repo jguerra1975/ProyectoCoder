@@ -1,0 +1,7 @@
+{% extends 'padre.html' %}
+
+
+{% block contenidoQuecambia %}
+    <p>Gracias por visitarnos {{user.username}}, vuelva cuando guste</p>
+    <a href="{% url 'Inicio' %}">Inicio</a>
+{% endblock contenidoQuecambia %}

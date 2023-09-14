@@ -2,13 +2,13 @@
 
 
 {% block contenidoQuecambia %}
-    <form action="{% url 'EditarCursos' curso.id %}" method="post">{% csrf_token %}
+    <form action="{% url 'CreaUsuario' %}" method="post">{% csrf_token %}
         <!--
         <p>Curso: <input type="text" name="curso"></p>
         <p>Canada: <input type="number" name="camada"></p>
         -->
-        {{form.as_p}}
-        <button type="submit"> Actualizar </button>
+        {{miFormulario.as_p}}
+        <button type="submit"> Crear </button>
     </form>
   
 {% endblock contenidoQuecambia %}

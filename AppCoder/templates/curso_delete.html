@@ -2,12 +2,10 @@
 
 
 {% block contenidoQuecambia %}
-    <form action="{% url 'EliminarCursos' %}" method="post">{% csrf_token %}
-
+    <form action="{% url 'EliminarCursos' curso.id %}" method="post">{% csrf_token %}
         <p>>Esta seguro de Elimiar el Curso</p>
         <button type="submit"> Confirmar </button>
-        <button > <a href="{% url ListaCursos %}"> Cancelar </a></button>
+        <button ><a href="{% url 'ListaCursos' %}"> Cancelar </a></button>
     </form>
-  
 {% endblock contenidoQuecambia %}
     

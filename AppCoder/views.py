@@ -5,6 +5,11 @@ from .forms import CursoFormulario, ProfesorFormulario
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
 
@@ -80,7 +85,9 @@ def buscar(req: HttpRequest):
         return render(req, "resultadoBusqueda.html", {"cursos": cursos})
     else:
         return HttpResponse(f'no hay resultados en la busqueda {req.GET["camada"]}')
-    
+
+#@login_required    
+@staff_member_required(login_url='/app-coder/login')
 def lista_profesores(req):
     profesores = Profesor.objects.all()
     return render(req, "listaProfesores.html", {"profesores": profesores})
@@ -133,7 +140,7 @@ def edita_profesor(req, id):
         })
         return render(req, "editarProfesor.html", {"miFormulario": miFormulario, "id": profesor.id})
     
-class CursoList(ListView):
+class CursoList(LoginRequiredMixin, ListView):
     model = Curso
     template_name = "curso_list.html"
     context_object_name = "cursos"
@@ -147,16 +154,54 @@ class CursoCreate(CreateView):
     model = Curso
     template_name = "curso_create.html"
     fields = ['nombre', 'camada']
-    success_url = '/app-coder/lista-cursos/'
+    success_url = '/app-coder/ListaCursos/'
 
 class CursoUpdate(UpdateView):
     model = Curso
     template_name = "curso_update.html"
     fields = ('__all__')
-    success_url = '/app-coder/lista-cursos/'
+    success_url = '/app-coder/ListaCursos/'
+    context_object_name = "curso"
 
 class CursoDelete(DeleteView):
     model = Curso
     template_name = "curso_delete.html"
-    success_url = '/app-coder/lista-cursos/'
+    success_url = '/app-coder/ListaCursos/'
+    context_object_name = "curso"
 
+
+def loginView(req):
+    
+    print('method', req.method)
+    print('POST', req.POST)
+    if req.method == 'POST':
+        miFormulario = AuthenticationForm(req, data=req.POST)
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario = data["username"]
+            psw = data["password"]
+            user = authenticate(username=usuario, password=psw)
+            if user:
+                login(req, user)
+                return render(req, "inicio.html", {"mensaje": f"Bienvenido {usuario}"})
+        return render(req, "inicio.html", {"mensaje": f"Datos Incorrectos!!"})          
+    else:
+        miFormulario = AuthenticationForm()
+        return render(req, "login.html", {"miFormulario": miFormulario})
+    
+def register(req):
+    print('method', req.method)
+    print('POST', req.POST)
+    if req.method == 'POST':
+        miFormulario = UserCreationForm(req.POST)
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario = data["username"]
+            miFormulario.save()
+            return render(req, "inicio.html", {"mensaje": f"Usuario {usuario} Creado con Exito!!"})       
+        return render(req, "inicio.html", {"mensaje": f"Formulario invalido!!"})          
+    else:
+        miFormulario = UserCreationForm()
+        return render(req, "registro.html", {"miFormulario": miFormulario})
+
+ 
